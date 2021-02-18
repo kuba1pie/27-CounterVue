@@ -1,23 +1,44 @@
 <template>
   <div class="Counter">
-    <div class="Hours">{{ diff.getHours() }}</div>
-    <div class="Minutes">{{ diff.getMinutes() }}</div>
-    <div class="Seconds">{{ diff.getSeconds() }}</div>
+    <div class="Days">String in local time: {{ string }}</div>
+    <div class="Days">
+      Days:
+      {{ Math.floor(dattt / 1000 / 60 / 60 / 24) }}
+    </div>
+    <div class="Days">
+      Days:
+      {{ Math.floor((date.getTime() - now.getTime()) / 1000 / 60 / 60 / 24) }}
+    </div>
+    <div class="Hours">
+      Hour:
+      {{ Math.floor(((date.getTime() - now.getTime()) / 1000 / 60 / 60) % 24) }}
+    </div>
+    <div class="Minutes">
+      Min:
+      {{ Math.floor(((date.getTime() - now.getTime()) / 1000 / 60) % 60) }}
+    </div>
+    <div class="Seconds">
+      Sec:
+      {{ Math.floor(((date.getTime() - now.getTime()) / 1000) % 60) }}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "Counter",
-  props: ["date", "now", "diff"],
+  props: ["date", "diff", "now", "string", "difff"],
   data() {
-    return {
-      //data: new Date(this.date),
-      //diff: new Date(this.date - this.now),
-    };
+    return { dattt: "" };
   },
   mounted() {
-    //this.diff = this.date - this.now;
-  }
+    this.dattt = this.now - this.difff;
+    let jjj = new Date(this.date);
+    this.utc = jjj.toUTCString();
+    console.log(typeof this.diff);
+    if (this.diff < 0) {
+      console.log("<0");
+    }
+  },
 };
 </script>
