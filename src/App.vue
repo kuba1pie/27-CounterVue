@@ -10,7 +10,7 @@
     </header>
     <main><router-view /></main>
     <footer class="footer">
-      <a href="https:kubapietruszewski.pl/vuecounter">KubaPietruszewski.pl</a>
+      <a href="https://kubapietruszewski.pl/vuecounter">KubaPietruszewski.pl</a>
     </footer>
   </div>
 </template>
