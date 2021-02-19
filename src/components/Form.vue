@@ -1,8 +1,8 @@
 <template>
-  <div class="Form">
-    <div>
-      <b-form inline>
-        <label for="example-datepicker">Choose a date</label>
+  <div class="Wrapper">
+    <div class="Form">
+      <b-form align="center">
+        <label for="example-datepicker">Choose a date:</label>
         <b-form-datepicker
           id="example-datepicker"
           v-model="formDate"
@@ -19,35 +19,65 @@
         ></b-form-timepicker>
       </b-form>
 
-      <b-button v-on:click="addCounter">Button</b-button>
-      <b-button v-on:click="clearCounter">Clear Local Storage</b-button>
+      <b-button class="addButton" variant="success" v-on:click="addCounter"
+        >Add counter</b-button
+      >
     </div>
-    <li v-for="item in counters" :key="item.counter">
-      <Counter
-        v-bind:diff="item.counter - now"
-        v-bind:difff="new Date(item.counter)"
-        v-bind:date="item.counter"
-        v-bind:now="now"
-        v-bind:string="item.targetDate + ' ' + item.targetHour"
-        :key="item.counter"
-      />
-      <b-button v-on:click="deleteCounter" :key="123">Delete Counter</b-button>
-    </li>
+    <div class="Dashboard">
+      <div class="Counter" v-for="item in counters" :key="item.id">
+        <div class="Watch" v-if="item.counter > now">
+          <div class="Clock">
+            <div class="Item">
+              {{ Math.floor((item.counter - now) / 1000 / 3600 / 24) }}
+            </div>
+            <div class="Item">
+              {{ Math.floor((item.counter - now) / 1000 / 3600) % 24 }}
+            </div>
+            <div class="Item">
+              {{ Math.floor((item.counter - now) / 1000 / 60) % 60 }}
+            </div>
+            <div class="Item">
+              {{ Math.floor((item.counter - now) / 1000) % 60 }}
+            </div>
+          </div>
+          <b-button
+            variant="danger outline-dark"
+            v-on:click="deleteCounter(item.id)"
+            >Delete Counter</b-button
+          >
+        </div>
+        <div class="Alert" v-if="item.counter < now">
+          <p>Countdown finished</p>
+          <b-button
+            variant="danger outline-dark"
+            v-on:click="deleteCounter(item.id)"
+            >Delete Counter</b-button
+          >
+          <b-button
+            variant="info"
+            v-on:click="resetCounter(item.diff)"
+            v-b-popover.hover.top="
+              'Due to assignment timer will be set to orginal intreval from now!'
+            "
+            title="Reset Counter!"
+            >Reset Counter
+          </b-button>
+        </div>
+      </div>
+      <b-button variant="warning" v-on:click="clearCounter" class="clearButton"
+        >Clear Local Storage</b-button
+      >
+    </div>
   </div>
 </template>
 
 <script>
-import Counter from "@/components/Counter.vue";
-
 export default {
   name: "Form",
-  components: {
-    Counter,
-  },
   data() {
     return {
-      formHour: "08:00:00",
-      formDate: "2021-03-01",
+      formHour: "00:00:00",
+      formDate: "2021-02-19",
       counters: [],
       local: "",
       now: "",
@@ -55,18 +85,31 @@ export default {
   },
   methods: {
     addCounter() {
-      let formDate = Date.parse(this.formDate + " " + this.formHour);
-      let formUtcDate = new Date(formDate);
+      let form = this.formDate + " " + this.formHour;
       this.counters.push({
-        counter: formUtcDate,
-        targetDate: this.formDate,
-        targetHour: this.formHour,
-        // counter in utc
+        counter: new Date(new Date(form)),
+        diff: this.now - new Date(form),
+        id: this.counters.length + this.now,
       });
       this.local = JSON.stringify(this.counters);
     },
-    deleteCounter() {
-      console.log("delete");
+    resetCounter: function(message) {
+      this.counters.push({
+        counter: new Date(this.now.getTime() - message),
+        diff: message,
+        id: this.counters.length + this.now,
+      });
+      this.local = JSON.stringify(this.counters);
+    },
+    deleteCounter: function(message) {
+      //alert(message);
+      for (var i = 0; i < this.counters.length; i++) {
+        if (this.counters[i].id === message) {
+          this.counters.splice(i, 1);
+          i--;
+        }
+      }
+      this.local = JSON.stringify(this.counters);
     },
     clearCounter() {
       this.local = [];
@@ -75,19 +118,15 @@ export default {
     startTime() {
       setTimeout(this.startTime, 500);
       this.now = new Date();
-      //let nowUtc = ""
-    },
-    checkTime(i) {
-      if (i < 10) {
-        i = "0" + i;
-      } // add zero in front of numbers < 10
-      return i;
     },
   },
   mounted() {
     if (localStorage.local) {
       this.local = localStorage.local;
       this.counters = JSON.parse(localStorage.local);
+      for (var i = 0; i < this.counters.length; i++) {
+        this.counters[i].counter = new Date(this.counters[i].counter);
+      }
     }
     this.startTime();
   },

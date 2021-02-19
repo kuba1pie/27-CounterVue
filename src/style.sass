@@ -1,0 +1,101 @@
+$yellow: #ffcc00
+$dark_yellow: #c8a102
+$blue: #2873b9
+$dark_blue: #17285e
+
+html
+  margin: 0 auto
+  width: 100%
+  body
+    header
+      border: 2px solid $dark_blue
+      display: flex
+      flex-flow: row wrap
+      background-color: $yellow
+      margin: 0 auto
+      justify-content: center
+      align-items: center
+      button
+        margin: 0.5em
+      a:link, a:visited, a:hover, a:active
+        text-decoration: none
+        color: #fff
+        padding: 0.2em 0.4em
+        font-size: 2em
+    main
+      max-width: 1000px
+      margin: 0 auto
+      .Wrapper
+        display: flex
+        flex-flow: column
+        padding: 2em
+        .Form
+          font-size: 2.5em
+          display: flex
+          flex-flow: column
+          margin: 0
+          button
+            margin: 20px auto
+          .form-control
+            label
+              font-size: 30px
+        .addButton, .clearButton
+          padding: 0.5em 1em
+          font-size: 24px
+          margin: 0 auto
+        .Dashboard
+          display: flex
+          flex-flow: column
+          .Counter
+            margin: 1em 0.5em
+            border: 2px solid #ee8844
+            border-radius: 10px
+            .btn
+              margin: 10px auto
+              display: block
+            .Watch
+              .Clock
+                display: flex
+                justify-content: center
+                padding: 0.3em
+                font-size: 2em
+                .Item
+                  margin: 5px
+                  width: 80px
+                  height: 80px
+                  text-align: center
+                  border: 2px black solid
+                  text-align: center
+                  vertical-align: middle
+                  line-height: 70px
+                  font-size: 60px
+            .Alert
+              justify-content: center
+              display: flex
+              flex-flow: column
+              background-color: #facccc
+              p
+                margin: 0 auto
+                font-size: 2em
+
+    .footer
+      position: fixed
+      left: 0
+      bottom: 0
+      width: 100%
+      padding: 0.4em
+      text-align: center
+      font-size: 2em
+      background-color: #1670d8
+      p
+        margin: 0px
+        padding: 0px
+      a:link, a:visited, a:hover, a:active
+        text-decoration: none
+        color: #000
+.Button
+  padding: 20px 10px
+  font-size: 30px
+.Project
+  font-size: 30px
+  padding: 40px
