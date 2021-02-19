@@ -80,7 +80,7 @@ export default {
       formDate: "2021-02-19",
       counters: [],
       local: "",
-      now: "",
+      now: ""
     };
   },
   methods: {
@@ -89,7 +89,7 @@ export default {
       this.counters.push({
         counter: new Date(new Date(form)),
         diff: this.now - new Date(form),
-        id: this.counters.length + this.now,
+        id: this.counters.length + this.now
       });
       this.local = JSON.stringify(this.counters);
     },
@@ -97,7 +97,7 @@ export default {
       this.counters.push({
         counter: new Date(this.now.getTime() - message),
         diff: message,
-        id: this.counters.length + this.now,
+        id: this.counters.length + this.now
       });
       this.local = JSON.stringify(this.counters);
     },
@@ -118,7 +118,7 @@ export default {
     startTime() {
       setTimeout(this.startTime, 500);
       this.now = new Date();
-    },
+    }
   },
   mounted() {
     if (localStorage.local) {
@@ -133,7 +133,7 @@ export default {
   watch: {
     local(newCounters) {
       localStorage.local = newCounters;
-    },
-  },
+    }
+  }
 };
 </script>
